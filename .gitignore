@@ -227,3 +227,7 @@ fabric.properties
 
 # Classwork ignore
 **/cw.py
+
+# MongoDB
+mongodb
+mongodb/
