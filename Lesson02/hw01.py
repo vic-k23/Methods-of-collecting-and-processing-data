@@ -42,15 +42,16 @@ class HeadHanterParser:
         """
         return pd.DataFrame(self._vacancy_list)
 
-    def get_vacancies_for(self, position, pages_count=1):
+    def get_vacancies_for(self, position='Data science', pages_count=1):
         """
         Собрать список вакансий для должности
         :param position: должность, для которой нужно собрать вакансии
         :param pages_count: количество страниц, которые нужно обработать
         :return: список словарей с описанием вакансии
         """
+        self.__params['text'] = position
         self._vacancy_list = []
-        while self.__next_page is not None:
+        while self.__next_page is not None and self.__next_page < pages_count:
             self.__process_soup__(self.__get_soup__())
 
     def __get_soup__(self):
