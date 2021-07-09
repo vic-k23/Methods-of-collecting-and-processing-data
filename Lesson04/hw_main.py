@@ -78,6 +78,7 @@ class NewsParser:
         xpath_href = 'descendant::a[@class="mg-card__link"]/@href'
         xpath_header = 'descendant::h2[@class="mg-card__title"]/text()'
         xpath_time = 'descendant::span[@class="mg-card-source__time"]/text()'
+        xpath_source = 'descendant::a[@class="mg-card__source-link"]/text()'
 
         response = get(self.__yandex_base_url, headers=self.__headers)
         news_html = html.fromstring(response.text)
@@ -94,7 +95,7 @@ class NewsParser:
                                     hour=int(search(r'(\d?\d):(\d\d)', pub_date)[1]),
                                     minute=int(search(r'(\d?\d):(\d\d)', pub_date)[2]))
             self.articles.append({
-                'source': 'Yandex.news',
+                'source': self.__clear_unbreakable_space(str(article.xpath(xpath_source)[0])),
                 'header': self.__clear_unbreakable_space(article.xpath(xpath_header)[0]),
                 'href': self.__clear_unbreakable_space(article.xpath(xpath_href)[0]),
                 'pub_date': str(pub_date)
@@ -136,6 +137,7 @@ class NewsParser:
         xpath_href = '@href'
         xpath_header = 'text()'
         xpath_time = '//span[@class="note__text breadcrumbs__text js-ago"]/@datetime'
+        xpath_source = '//a[@class="link color_gray breadcrumbs__link"]/span/text()'
 
         response = get(self.__mail_base_url, headers=self.__headers)
         news_html = html.fromstring(response.text)
@@ -145,8 +147,9 @@ class NewsParser:
             response = get(article.xpath(xpath_href)[0], headers=self.__headers)
             news_html = html.fromstring(response.text)
             pub_date = news_html.xpath(xpath_time)[0]
+            source = news_html.xpath(xpath_source)[0]
             self.articles.append({
-                'source': 'news.mail',
+                'source': source,
                 'header': self.__clear_unbreakable_space(article.xpath(xpath_header)[0]),
                 'href': self.__clear_unbreakable_space(article.xpath(xpath_href)[0]),
                 'pub_date': pub_date
