@@ -119,7 +119,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-Lesson07/leroymerlinparser/leroymerlinparser/.env
+**/*.env
 env/
 venv/
 ENV/
