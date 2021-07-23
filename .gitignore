@@ -228,9 +228,12 @@ fabric.properties
 # Classwork ignore
 **/cw.py
 
+# Ignore all .exe files
+*.exe
+
 # MongoDB
 mongodb
 mongodb/
-# ignore downloaded images
 
+# ignore downloaded images
 **/images/
